@@ -51,7 +51,7 @@ pub fn build_vk_surface(window: &Window, instance: Arc<Instance>) -> Result<Arc<
 #[cfg(target_os = "android")]
 unsafe fn sdl2_to_surface(wm_info: &SDL_SysWMinfo, instance: Arc<Instance>) -> Result<Arc<Surface>, ErrorType>
 {
-    let window = wm_info.info.android.as_ref().window;
+    let window = wm_info.info.android.window;
     translate_vk_result(Surface::from_anativewindow(instance, window))
 }
 
@@ -60,14 +60,14 @@ unsafe fn sdl2_to_surface(wm_info: &SDL_SysWMinfo, instance: Arc<Instance>) -> R
 {
     if wm_info.subsystem == SDL_SYSWM_TYPE::SDL_SYSWM_X11
     {
-        let display = wm_info.info.x11.as_ref().display;
-        let window = wm_info.info.x11.as_ref().window;
+        let display = wm_info.info.x11.display;
+        let window = wm_info.info.x11.window;
         translate_vk_result(Surface::from_xlib(instance, display, window))
     }
     else if wm_info.subsystem == SDL_SYSWM_TYPE::SDL_SYSWM_WAYLAND
     {
-        let display = wm_info.info.wl.as_ref().display;
-        let surface = wm_info.info.wl.as_ref().surface;
+        let display = wm_info.info.wl.display;
+        let surface = wm_info.info.wl.surface;
         translate_vk_result(Surface::from_wayland(instance, display, surface))
     }
     else
@@ -79,8 +79,8 @@ unsafe fn sdl2_to_surface(wm_info: &SDL_SysWMinfo, instance: Arc<Instance>) -> R
 #[cfg(target_os = "windows")]
 unsafe fn sdl2_to_surface(wm_info: &SDL_SysWMinfo, instance: Arc<Instance>) -> Result<Arc<Surface>, ErrorType>
 {
-    let hinstance = wm_info.info.win.as_ref().hinstance;
-    let hwnd = wm_info.info.win.as_ref().window;
+    let hinstance = wm_info.info.win.hinstance;
+    let hwnd = wm_info.info.win.window;
     translate_vk_result(Surface::from_hwnd(instance, hinstance, hwnd))
 }
 

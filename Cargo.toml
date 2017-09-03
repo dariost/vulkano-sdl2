@@ -12,7 +12,7 @@ name = "vulkano_sdl2"
 
 [dependencies]
 vulkano = "0.6"
-sdl2 = { git = "https://github.com/dariost/rust-sdl2.git", rev = "5e0ef78" }
+sdl2 = { git = "https://github.com/dariost/rust-sdl2.git", features = ["use-bindgen", "use-pkgconfig"] }
 
 [dev-dependencies]
 vulkano-shader-derive = "0.6"
