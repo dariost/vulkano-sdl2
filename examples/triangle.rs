@@ -82,6 +82,24 @@ fn main()
         let caps = surface.capabilities(physical).expect(
             "failed to get surface capabilities",
         );
+        let present_mode = {
+            if caps.present_modes.supports(PresentMode::Mailbox)
+            {
+                PresentMode::Mailbox
+            }
+            else if caps.present_modes.supports(PresentMode::Immediate)
+            {
+                PresentMode::Immediate
+            }
+            else if caps.present_modes.supports(PresentMode::Relaxed)
+            {
+                PresentMode::Relaxed
+            }
+            else
+            {
+                PresentMode::Fifo
+            }
+        };
         let alpha = caps.supported_composite_alpha.iter().next().unwrap();
         let format = caps.supported_formats[0].0;
         Swapchain::new(
@@ -95,7 +113,7 @@ fn main()
             &queue,
             SurfaceTransform::Identity,
             alpha,
-            PresentMode::Immediate,
+            present_mode,
             true,
             None,
         ).expect("failed to create swapchain")
