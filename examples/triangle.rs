@@ -49,6 +49,7 @@ fn main()
         .position_centered()
         .resizable()
         .allow_highdpi()
+        .vulkan()
         .build()
         .unwrap();
     let instance = {
